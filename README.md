@@ -1,6 +1,7 @@
 # Linux-shell
 简单基础的shell脚本
-1.一个点进度条
+
+### 1.一个点进度条
 user@Ubuntu:~$ ./8.4.1.sh 
 ./8.4.1.sh: please wait....10+0 records in
 10+0 records out
