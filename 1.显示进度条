@@ -1,0 +1,52 @@
+#/bin/bash
+#===============================================
+#FILE:文件
+#USAGE:用法
+#DESCRIPTION:描述
+#OPTIONS:选项
+#REQUIREMENTS:要求
+#BUGS:已知错误
+#NOTES:备注
+#AUTHOR:作者
+#ORGANIZATION:公司或组织
+#BUGS:已知错误
+#CREATED:创建时间 10/24/2013 11:27
+#REVISION:修订版
+#==============================================
+
+#文件执行时显示进度条
+progress(){
+        echo -n "$0: please wait..."
+        #执行无限while循环
+        while true
+        do
+                echo -n "."
+                #休眠5秒
+                sleep 5
+        done
+}
+
+#杀死进程
+progress_kill(){
+        kill $MYSELF > /dev/null 2>&1
+        echo -n "...done."
+        echo
+}
+
+#例子dobackup()：创建一个1G的文件
+dobackup(){
+dd if=/dev/zero of=filename bs=1M count=1024
+}
+
+#将progress()函数放在后台运行
+progress &
+#保存progress()运行的进程号
+MYSELF=$!
+
+#例子dobackup()
+dobackup
+
+#杀死进程
+progress_kill
+
+
