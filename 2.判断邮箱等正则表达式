@@ -1,0 +1,26 @@
+#!/bin/bash
+
+
+#判断是否为
+number_yon(){
+if [[ $num =~ ^[0-9]+$ ]]; then
+    echo "It's a number."
+else
+    echo "It' not a number."
+fi
+}
+
+#判断是否为邮箱
+email_yon(){
+        local input_email=$1
+        if [[ $input_email =~ ^[A-Za-z0-9\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z]{2,4}$ ]]; then
+            echo "This email address looks fine:$input_email"
+        else
+            echo "This not email."
+        fi
+}
+
+
+#举例：输入邮箱判断格式
+read -p "Input a email,Please:" email
+email_yon $email
