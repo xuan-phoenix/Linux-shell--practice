@@ -46,7 +46,7 @@ MYSELF=$!
 #例子dobackup()
 dobackup
 
-#杀死进程
+#任务执行完杀死进程
 progress_kill
 
 
