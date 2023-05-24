@@ -9,7 +9,8 @@
 #NOTES:备注
 #REVISION:修订版
 #==============================================
-case_or(){
+
+command_or(){
 case $1 in
         sql)
                 #执行sql备份
@@ -32,5 +33,15 @@ case $1 in
                 ;;
 esac
 }
+#输出提示命令
+echo "Backup utility"
+echo "Usage: `basename $0` {sql|sync|snap}"
+echo "    sql : Run MySQL backup utility."
+echo "    sync : Run web server backup utility."
+echo "    snap : Run snapshot backup utility."
 
-case 
+#输入你准备执行的命令
+read -p "Input a command,Please:" command
+
+#执行函数
+command_or $command
