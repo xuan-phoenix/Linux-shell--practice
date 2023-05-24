@@ -1,0 +1,36 @@
+#/bin/bash
+#===============================================
+#FILE:文件
+#USAGE:用法
+#DESCRIPTION:描述
+#OPTIONS:选项
+#REQUIREMENTS:要求
+#BUGS:已知错误
+#NOTES:备注
+#REVISION:修订版
+#==============================================
+case_or(){
+case $1 in
+        sql)
+                #执行sql备份
+                echo "Running mysql backup using mysqldump tool..."
+                ;;
+        sync)
+                #使用rsync工具进行备份…
+                echo "Running backup using rsync tool..."
+                ;;
+        snap)
+                #存储备份
+                echo "Running snapshot backup on storage..."
+                ;;
+        *)
+                echo "Backup utility"
+                echo "Usage: `basename $0` {sql|sync|snap}"
+                echo "    sql : Run MySQL backup utility."
+                echo "    sync : Run web server backup utility."
+                echo "    snap : Run snapshot backup utility."
+                ;;
+esac
+}
+
+case 
