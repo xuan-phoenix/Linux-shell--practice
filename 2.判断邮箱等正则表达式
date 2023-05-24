@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-#判断是否为
+#判断是否为数字
 number_yon(){
 if [[ $num =~ ^[0-9]+$ ]]; then
     echo "It's a number."
