@@ -11,3 +11,12 @@ user@Ubuntu:~$ ./8.4.1.sh <br/>
 user@Ubuntu:~$ ./9.1.4.sh <br/>
 Input a email,Please:jsgucfvy@krbfsj.com<br/>
 This email address looks fine:jsgucfvy@krbfsj.com<br/>
+### 3.case_选项模板函数
+user@Ubuntu:~$ ./command.sh<br/>
+Backup utility<br/>
+Usage: command.sh {sql|sync|snap}<br/>
+    sql : Run MySQL backup utility.<br/>
+    sync : Run web server backup utility.<br/>
+    snap : Run snapshot backup utility.<br/>
+Input a command,Please:sync<br/>
+Running backup using rsync tool...<br/>
