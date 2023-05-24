@@ -40,8 +40,14 @@ echo "    sql : Run MySQL backup utility."
 echo "    sync : Run web server backup utility."
 echo "    snap : Run snapshot backup utility."
 
+#开启nocasematch选项：大小写敏感
+shopt -s nocasematch
+
 #输入你准备执行的命令
 read -p "Input a command,Please:" command
 
 #执行函数
 command_or $command
+
+#关闭nocasematch选项：大小写敏感
+shopt -u nocasematch
