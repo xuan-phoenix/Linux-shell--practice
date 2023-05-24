@@ -17,8 +17,9 @@ Backup utility<br/>
 Usage: command.sh {sql|sync|snap}<br/>
     sql : Run MySQL backup utility.<br/>
     sync : Run web server backup utility.<br/>
-    snap : Run snapshot backup utility.<br/>
 Input a command,Please:sync<br/>
 Running backup using rsync tool...<br/>
-shopt -s nocasematch   # 打开Bash的开关，忽略大小写
-参数：-u关闭
+shopt -s nocasematch   # 打开Bash的开关，忽略大小写<br/>
+参数：-u关闭<br/>
+
+
