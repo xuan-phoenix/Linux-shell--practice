@@ -20,3 +20,5 @@ Usage: command.sh {sql|sync|snap}<br/>
     snap : Run snapshot backup utility.<br/>
 Input a command,Please:sync<br/>
 Running backup using rsync tool...<br/>
+shopt -s nocasematch   # 打开Bash的开关，忽略大小写
+参数：-u关闭
