@@ -22,4 +22,10 @@ Running backup using rsync tool...<br/>
 shopt -s nocasematch   # 打开Bash的开关，忽略大小写<br/>
 参数：-u关闭<br/>
 
+### 4.输入的参数相关函数
+user@Ubuntu:~$ ./connand.sh one two there<br/>
+Listing args With $*:<br/>
+Arg #1 = one<br/>
+Arg #2 = two<br/>
+Arg #3 = there<br/>
 
