@@ -1,0 +1,59 @@
+#/bin/bash
+
+#定义变量vflag,filename,output
+vflag=off
+filename=""
+output=""
+
+#定义用法函数usage
+function usage(){
+        echo "USAGE:"
+        echo "    myscript [-h] [-v] [-f <filename>] [-o <filename>]"
+        exit -1
+}
+
+#在while循环中使用getopts解析命令行选项
+#要解析的选项有-h、-v、-f和-o,其中-f和-o选项带有参数
+#字符串选项中第一个冒号表示getopts使用抑制错误报告模式
+while getopts :hvf:o: opt
+do
+        case "$opt" in
+        v)
+                vflag=on
+                ;;
+        f)
+                #将-f 选项的参数赋值给变量 filename
+                filename=$OPTARG
+                #如果文件不存在,则显示提示信息,并退出脚本的执行
+                if [ ! -f $filename ];then
+                        echo "The source file $filename doesn't exist!"
+                        exit
+                fi
+                ;;
+        o)
+                #将-o选项的参数赋值给变量output
+                output=$OPTARG
+                #如果指定的输出文件的目录不存在,则显示提示信息,并退出脚本的执行
+                if [ ! -d 'dirname $output' ];then
+                        echo "The output path 'dirname $output' doesn't exist!"
+                        exit
+                fi
+                ;;
+        h)
+                # 显示脚本的使用信息
+                usage
+                exit
+                ;;
+        :)
+                #如果没有为需要参数的选项指定参数,则显示提示信息,并退出脚本的运行
+                echo "The option -$OPTARG requires an argument."
+                exit 1
+                ;;
+        ?)
+                #若指定的选项为无效选项,则显示提示信息,及脚本的使用方法信息,并退出脚本的运行
+                echo "Invalid option: -$OPTARG"
+                usage
+                exit 2
+                ;;
+        esac
+done
