@@ -1,5 +1,20 @@
 # Linux-shell
-简单基础的shell脚本
+简单基础的shell脚本标准开头信息
+#/bin/bash<br/>
+#===============================================<br/>
+#FILE:文件<br/>
+#USAGE:用法<br/>
+#DESCRIPTION:描述<br/>
+#OPTIONS:选项<br/>
+#REQUIREMENTS:要求<br/>
+#BUGS:已知错误<br/>
+#NOTES:备注<br/>
+#AUTHOR:作者<br/>
+#ORGANIZATION:公司或组织<br/>
+#CREATED:创建时间 <br/>
+#REVISION:修订版<br/>
+#==============================================<br/>
+
 
 ### 1.一个点点进度条
 user@Ubuntu:~$ ./8.4.1.sh <br/>
