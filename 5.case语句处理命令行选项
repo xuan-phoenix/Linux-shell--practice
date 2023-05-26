@@ -1,0 +1,37 @@
+#/bin/bash
+#将第一个，第二个命令行参数赋值给变量
+opt=$1
+filename=$2
+#判断第二个参数文件状态
+checkfile(){
+        #如果没有指定文件名,则显示缺少文件名,并退出脚本的运行
+        if [ -z $filename ]; then
+                echo "File name missing"
+                exit 1
+        #如果指定的文件不存在,则显示文件不存在,并退出脚本的运行
+        elif [ ! -f $filename ];then
+                echo "The file $filename doesn't exist!"
+                exit 2
+        fi
+}
+#使用case选项
+case $opt in
+        -e|-E)
+                ##运行编辑文件的命令、函数或脚本
+                #调用checkfile
+                checkfile
+                echo "Editing $filename file..."
+                ;;
+        -p|-P)
+                ##运行显示文件的命令、函数或脚本
+                checkfile
+                echo "Displaying $filename file..."
+                ;;
+        *)
+                #匹配其它选项
+                echo "Bad argument"
+                echo "Usage: `basename $0` {-e|-p} filename"
+                echo "    -e filename: Edit file."
+                echo "    -p filename: display file."
+                ;;
+esac
