@@ -1,0 +1,35 @@
+#/bin/bash
+#脚本中的 0x08 和 Ox7f 分别表示十六进制 ASCI 码中的退格键和删除键。
+#“\b \b”则是用于删除左侧的字符，只使用“\b”表示向左移动光标，但字符保持不变。
+
+#定义变量password
+password=''
+
+#提示输入密码到标准输出
+echo -n "Enter Password:"
+
+#使用while循环隐式地从标准输入每次读取一个字符,且反斜杠不做转义字符处理
+#然后将读取的字符赋值给变量 char
+while IFS= read -r -s -n1 char
+do
+        #如果读入的字符为空（直接输出的回车），则退出while循环
+        if [ -z $char ]; then
+                echo
+                break
+        fi
+        #如果输入的是退格键(backspace)或删除键(delete) 
+        #则从变量password中移除最后一个字符,并向左删除一个*
+        #否则,将变量char的值累加赋值给变量password
+        if [[ $char == $'\x08' || $char == $'\x7f' ]]; then
+                #从变量password中移除最后一个字符
+                [[ -n $password ]] && password=${password:0:${#password}-1}
+                printf '\b \b'
+        else
+                #将变量char的值累加赋值给变量passwor
+                password+=$char
+                #打印一个 ‘*’
+                printf '*'
+        fi
+done
+
+echo "Password is: $password"
