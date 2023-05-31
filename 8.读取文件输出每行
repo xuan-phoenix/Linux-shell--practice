@@ -5,33 +5,48 @@
 #因此，我们若要想使用这种方法逐行地读取文件内容时,需要在调用for循环之前先修改SIFS的值。
 #当然,如果你确定文件内容的每行都只有一个单词的话,就无需修改SIFS的默认值。
 #==============================================
-
-#使用O_IFS保存IFS环境变量的值
-old_IFS=$IFS
-
+#-----------read方式读取------------------------------#
+while_read(){
+# 定义变量 file，并将指定给脚本的第一个参数赋值给此变量
+filename=$1
+#使用 while循环逐行读取内容,并将读取的内容存入变量 LINE
+while read LINE
+do
+        let count++
+        echo "$count $LINE"
+#将while循环的标准输入指向变量filename所代表的文件
+done < $filename
+}
+#-----------cat方式读取------------------------------#
+cat_read(){
+#修改环境变量IFS的值,使用下面的for循环以换行符为分隔符来逐行地读取文件的内容
+IFS=$'\n'
+#循环读取文件每行内容，将读取的内容存入变量 line
+for line in $(cat $1)
+do
+        let count++
+        echo $count: $line
+done
+#恢复环境变量IFS原来的值
+IFS=$old_IFS
+}
+#------------------------------------------------#
 #判断输入的参数是否是一个
 if [ $# -ne 1 ]; then
         echo "Usage: 'basename $0 ' filename"
         exit
 fi
-
 #判断文件是否存在
 if [ ! -f $1 ]; then
         echo "The file $1 doesn't exist!"
         exit
 fi
-#修改环境变量IFS的值,使用下面的for循环以换行符为分隔符来逐行地读取文件的内容
-IFS=$'\n'
-
-#设置初始行号
-Line_number=1
-
-#循环读取文件每行内容，将读取的内容存入变量 line
-for line in $(cat $1)
-do
-        echo $Line_number: $line
-                let Line_number=$Line_number+1
-done
-
-#恢复环境变量IFS原来的值
-IFS=$old_IFS
+# 定义变量 file，并将指定给脚本的第一个参数赋值给此变量
+filename=$1
+#设置行号变量
+count=0
+##########两种方法######################
+while_read $1
+#cat_read $1
+echo -e "\nTotal $count linces read"
+exit
