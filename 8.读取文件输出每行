@@ -1,0 +1,37 @@
+#/bin/bash
+#===============================================
+#使用这种方法读取文件内容的常见错误是,以为它会逐行地读取文件的内容,其实在默认情况下,它是逐个单词地读取文件内容。
+#因为使用这种方法读取文件内容时,它使用环境变量IFS的值作为分隔符，由于SIFS的默认值是“<space><tab><newline>” ,所以它会首先以空格作为分隔符，来读取文件的内容。
+#因此，我们若要想使用这种方法逐行地读取文件内容时,需要在调用for循环之前先修改SIFS的值。
+#当然,如果你确定文件内容的每行都只有一个单词的话,就无需修改SIFS的默认值。
+#==============================================
+
+#使用O_IFS保存IFS环境变量的值
+old_IFS=$IFS
+
+#判断输入的参数是否是一个
+if [ $# -ne 1 ]; then
+        echo "Usage: 'basename $0 ' filename"
+        exit
+fi
+
+#判断文件是否存在
+if [ ! -f $1 ]; then
+        echo "The file $1 doesn't exist!"
+        exit
+fi
+#修改环境变量IFS的值,使用下面的for循环以换行符为分隔符来逐行地读取文件的内容
+IFS=$'\n'
+
+#设置初始行号
+Line_number=1
+
+#循环读取文件每行内容，将读取的内容存入变量 line
+for line in $(cat $1)
+do
+        echo $Line_number: $line
+                let Line_number=$Line_number+1
+done
+
+#恢复环境变量IFS原来的值
+IFS=$old_IFS
