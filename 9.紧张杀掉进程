@@ -1,0 +1,15 @@
+#!/bin/bash
+#这些trap命令设置了SIGINT(Ctrl+C)和SIGTERM(kill)信号的处理器。
+#当这些信号被接收时,trap命令指定的echo语句会被执行,而不是默认的终止程序的行为。
+#- 当你按Ctrl+C时,会打印'You hit control+C! I am ignoring you .' 而不是终止程序。
+#- 当你使用kill命令终止程序时,会打印'You tried to kill me ! I am ignoring you .' 而不是终止程序。
+#这种机制可以用来让程序对中断信号做出自定义响应,而不是默认的终止行为。
+
+trap "echo 'You hit control+C! I am ignoring you .' " SIGINT
+
+trap "echo 'You tried to kill me ! I am ignoring you .' " SIGTERM
+
+for i in {1..10}; do
+    echo "Itermination $i of 10"
+    sleep 10
+done
