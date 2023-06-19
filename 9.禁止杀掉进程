@@ -5,6 +5,7 @@
 #- 当你使用kill命令终止程序时,会打印'You tried to kill me ! I am ignoring you .' 而不是终止程序。
 #这种机制可以用来让程序对中断信号做出自定义响应,而不是默认的终止行为。
 
+#trap '' SIGINT
 trap "echo 'You hit control+C! I am ignoring you (*>__<*).' " SIGINT
 
 trap "echo 'You tried to kill me ! I am ignoring you (╯°□°）╯︵ ┻━┻ .' " SIGTERM
