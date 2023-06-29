@@ -1,0 +1,65 @@
+#!/bin/bash
+
+#初始化一个变量，用于存放awk脚本
+INIT_TAB_AWK=""
+
+count_case=0
+FILE_PARSE=$1
+
+#退出状态码
+E_PARAMERR=65
+
+usage() {
+    #显示脚本使用方法,示例:./$0 filename.txt a b c
+    echo "Usage: $0 filename.txt a b c" 2>&1
+    exit $E_PARAMERR
+}
+
+if [ ! -f "$1" ]; then
+    echo "$1 : No such file" 2>&1
+    usage
+fi
+
+if [ -z "$2" ]; then
+    echo "$2: No letters specified " 2>&1
+    usage
+fi
+
+#获取需要的字符
+#shift将所有的参数变量($1, $2, $3 等)左移一位。
+#过滤掉$1的文件名
+shift
+
+#
+# 另一个方法过滤掉第一个字符
+# letters=$( echo $@ | sed "s#$1##g" )
+#
+
+# 遍历每个指定的字符
+for letter in $@ ; do
+    #定义awk脚本的内容,此变量将作为参数传递给后面命令中的awk脚本
+    INIT_TAB_AWK="$INIT_TAB_AWK tab_search[${count_case}] = \"$letter\"; 
+    final_tab[${count_case}] = 0; "
+    count_case=$((count_case + 1))
+done
+
+# 将文件的内容通过管道传递给 awk 命令，并使用 awk 脚本对文件的内容进行处理
+cat $FILE_PARSE |
+awk \
+"BEGIN { $INIT_TAB_AWK } \
+#下面的split函数是将一行记录按照单个字符分隔并存放到数组tab中
+{ split(\$0, tab, \"\"); \
+#循环遍历数组tab
+for (chara in tab) \
+#循环遍历数组tab search
+{ for (chara2 in tab_search) \
+#如果在记录中找到指定的字符,就将计数加1
+{ if (tab_search[chara2] == tab[chara]) { final_tab[chara2]++ } } } } \
+#分别打印每个字符出现的次数
+END { for (chara in final_tab) \
+{ print tab_search[chara] \" => \" final_tab[chara] } } "
+
+#for循环、if测试和几个专门的函数。
+# ---------------------------
+
+exit $?
