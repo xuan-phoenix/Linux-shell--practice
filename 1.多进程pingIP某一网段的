@@ -1,0 +1,118 @@
+#!/bin/bash
+
+# 定义多线程 ping 函数
+parallel_ping() {
+  local ips=$(seq $2 $3) 
+  parallel -j $4 ping $1.{} -w 5 ::: $ips
+}
+
+# 1. 用grep提取出所有ping的IP地址,正则表达式'^PING \K[\d\.]+(?= \()'匹配以PING开头,然后取IP地址部分
+# 2. 用while read逐行读取提取的IP地址
+# 3. 对每个IP,再grep查看是否有"0% packet loss",有就输出ok,没有就输出no
+# 这样可以逐行检查每个IP的ping结果,只输出简单的ok/no状态
+awk_ping(){
+  awk -F'[ ]+' '
+  /^PING/ {ip=$2}
+  /packet loss/ {
+   if($6=="0%") {
+     print "\033[32m" ip,":ok\033[0m"  
+   } else {
+     print "\033[31m" ip,":no\033[0m"
+   }
+  }' ping.log
+}
+awk_ping_ok(){
+  awk -F'[ ]+' '
+  /^PING/ {ip=$2}
+  /packet loss/ {
+   if($6=="0%") {
+     print "\033[32m" ip,":ok\033[0m"  
+   } else {
+    #  print "\033[31m" ip,":no\033[0m"
+   }
+  }' ping.log
+}
+awk_ping_no(){
+  awk -F'[ ]+' '
+  /^PING/ {ip=$2}
+  /packet loss/ {
+   if($6=="0%") {
+    #  print "\033[32m" ip,":ok\033[0m"  
+   } else {
+     print "\033[31m" ip,":no\033[0m"
+   }
+  }' ping.log
+}
+
+
+##########执行时显示一个点点进度条#######
+progress(){
+        echo -n "Under execution: please wait..."
+        #执行无限while循环
+        while true
+        do
+                echo -n "."
+                #休眠2秒
+                sleep 2
+        done
+}
+#杀死...进程
+progress_kill(){
+        kill $MYSELF > /dev/null 2>&1
+        echo -n "...done."
+        echo
+}
+################################
+
+
+
+#开始提示
+echo  "ping的参数,未输入参数时,使用测试时的。"
+echo  "参数：  |    IP      |  起始  | 结束 | 线程数"
+echo  "示例：   192.168.199      1     200     50  "
+read -p "YOU,Please:" command
+
+#未输入时的测试参数
+if [ -z "$command" ]; then
+        command="192.168.199 204 208 10"
+fi
+
+
+
+
+#将progress()函数放在后台运行
+progress &
+#保存progress()运行的进程号
+MYSELF=$!
+
+# 调用ping函数, 也可以保存结果到文件
+#      调用     |      IP      |  起始  | 结束 | 线程数
+# parallel_ping   192.168.199      1      200     50
+parallel_ping $command > ping.log
+
+
+
+#任务执行完杀死...进程
+progress_kill
+
+
+#循环显示ping结果
+while true
+do
+
+#显示ping的结果
+  echo "显示 $command 结果："
+  echo "参数：  | null |  y  |  n  |  q "
+  echo "示例：    all    ok    no    quit  "
+  read -p "Check ping results? (y/n/q) " choice
+  #直接读取键盘来选择,还有问题
+  # read -n1 key
+
+  case $choice in
+    y) awk_ping_ok ;;
+    n) awk_ping_no ;;
+    q) exit 1;;
+    *) awk_ping
+  esac
+
+done
