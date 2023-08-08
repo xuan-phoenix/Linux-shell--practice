@@ -14,8 +14,7 @@
 #CREATED:创建时间 <br/>
 #REVISION:修订版<br/>
 #==============================================<br/>
-
-
+显示时间：time=$(date '+%Y/%m/%d %H:%M:%S')<br/>
 ### 1.一个点点进度条
 user@Ubuntu:~$ ./8.4.1.sh <br/>
 ./8.4.1.sh: please wait....10+0 records in<br/>
