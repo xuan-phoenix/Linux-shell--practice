@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# 主程序
+
+jdt()   {
+for j in '|' '/' '—' '\'; do
+    echo -ne "Running------"
+    echo -ne "$j"
+    echo -ne "\r"
+    sleep 0.25
+done
+}
+
+jdt_1() {
+for ((i=1; i<=100; i+=1)); do
+  echo -ne "Running... "
+  for j in '|' '/' '—' '\'; do 
+    echo -ne "$j"
+    sleep 0.25
+    echo -ne "\b"
+  done
+  echo -ne "$i%\r"
+  sleep 1
+done
+}
+
+while true; do
+    jdt
+    jdt_1
+done
+
+# | / —— \ 
+# | / —— \
+# for ((i=1; i<=100; i+=1)); do
+#   echo -ne "Running... "
+#   for j in '|' '/' '—' '\'; do 
+#     echo -ne "$j\r"
+#     sleep 0.25
+#   done
+# done
+
+# for ((i=1; i<=100; i+=1)); do
+#     for j in '|' '/' '—' '\'; do
+#         echo -ne "Running------"
+#         echo -ne "$j"
+#         echo -ne "$i%\r"
+#         sleep 0.25
+#     done
+# done
