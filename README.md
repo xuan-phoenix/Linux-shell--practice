@@ -1,3 +1,7 @@
+name: '14 新加坡 流畅初级', type: vmess, server: 50014.baidu-cdn.top, port: 50014, uuid: 27cdcd06-7308-4879-b1b7-19881cfa5ab6, alterId: 0, cipher: auto, udp: true }
+    - { name: '15 新加坡 初级', type: vmess, server: 50015.baidu-cdn.top, port: 50015, uuid: 27cdcd06-7308-4879-b1b7-19881cfa5ab6, alterId: 0, cipher: auto, udp: true }
+
+
 # Linux-shell
 简单基础的shell脚本标准开头信息<br/>
 #/bin/bash<br/>
